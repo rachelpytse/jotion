@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { ChevronLeft, MenuIcon, PlusCircle, Search, Settings } from "lucide-react"
+import { ChevronLeft, MenuIcon, Plus, PlusCircle, Search, Settings } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { ElementRef, useEffect, useRef, useState } from "react"
 // not using tailwind breakpoint because it's complex especially the sidebar is resizable on drag
@@ -154,6 +154,11 @@ export const Navigation = () => {
                 </div>
                 <div className="mt-4">
                     <DocumentList/>
+                    <Item
+                        onClick={handleCreate}
+                        icon={Plus}
+                        label="Add a page"
+                    />
                 </div>
                 {/* when hover the group it shows */}
                 <div
