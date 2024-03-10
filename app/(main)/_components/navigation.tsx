@@ -7,6 +7,7 @@ import { ElementRef, useEffect, useRef, useState } from "react"
 // not using tailwind breakpoint because it's complex especially the sidebar is resizable on drag
 // use this to consider manually in javascript what is mobile and what is desktop
 import { useMediaQuery } from "usehooks-ts"
+import { UserItem } from "./user-item"
 
 export const Navigation = () => {
     // in mobile mode when user click on a specific document it will collapse the sidebar because the sidebar takes much space
@@ -117,7 +118,7 @@ export const Navigation = () => {
                     <ChevronLeft className="h-6 w-6"/>
                 </div>
                 <div>
-                    <p>Action items</p>
+                        <UserItem/>
                 </div>
                 <div className="mt-4">
                     <p>Documents</p>
