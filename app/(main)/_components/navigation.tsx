@@ -8,11 +8,14 @@ import { ElementRef, useEffect, useRef, useState } from "react"
 // use this to consider manually in javascript what is mobile and what is desktop
 import { useMediaQuery } from "usehooks-ts"
 import { UserItem } from "./user-item"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 
 export const Navigation = () => {
     // in mobile mode when user click on a specific document it will collapse the sidebar because the sidebar takes much space
     const pathname = usePathname()
     const isMobile = useMediaQuery("(max-width: 768px)")
+    const documents = useQuery(api.documents.get)
 
     const isResizingRef = useRef(false)
     const sidebarRef = useRef<ElementRef<"aside">>(null)
@@ -121,7 +124,11 @@ export const Navigation = () => {
                         <UserItem/>
                 </div>
                 <div className="mt-4">
-                    <p>Documents</p>
+                        {documents?.map((document) => (
+                            <p key={document._id}>
+                                {document.title}
+                            </p>
+                        ))}
                 </div>
                 {/* when hover the group it shows */}
                 <div
