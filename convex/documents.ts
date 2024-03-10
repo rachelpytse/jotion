@@ -3,17 +3,36 @@ import {v} from "convex/values"
 import {mutation, query} from "./_generated/server"
 import {Doc, Id} from "./_generated/dataModel"
 
-export const get  = query({
-    handler: async(ctx) => {
+export const getSidebar = query({
+    args: {
+        parentDocument: v.optional(v.id("documents"))
+    },
+    handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity()
 
         if(!identity) {
             throw new Error("Not authenticated")
         }
 
-        const documents = await ctx.db.query("documents").collect()
+        const userId = identity.subject
 
-        return documents
+        const documents = await ctx.db
+            .query("documents")
+            // q is query, eq is equals
+            .withIndex("by_user_parent", (q) => 
+                q
+                .eq("userId", userId)
+                // if not passed it's just undefined
+                .eq("parentDocument", args.parentDocument)
+            )
+            .filter((q) =>
+                // don't show archived document
+                q.eq(q.field("isAchived"), false)
+            )
+            .order("desc")
+            .collect()
+
+            return documents
     }
 })
 
