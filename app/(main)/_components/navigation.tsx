@@ -5,7 +5,7 @@ import { ElementRef, useEffect, useRef, useState } from "react"
 import { useMutation } from "convex/react"
 import { useMediaQuery } from "usehooks-ts"
 import { ChevronLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react"
-import { useParams, usePathname } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { api } from "@/convex/_generated/api"
 import {
@@ -24,6 +24,7 @@ import { TrashBox } from "./trash-box"
 import { Navbar } from "./navbar"
 
 export const Navigation = () => {
+    const router = useRouter()
     const settings = useSettings()
     const search = useSearch()
     // in mobile mode when user click on a specific document it will collapse the sidebar because the sidebar takes much space
@@ -115,6 +116,7 @@ export const Navigation = () => {
 
     const handleCreate = () => {
         const promise = create({title: "Untitled"})
+            .then((documentId) => router.push(`/documents/${documentId}`))
 
         toast.promise(promise, {
             loading: "Creating a new note...",
