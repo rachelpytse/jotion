@@ -13,6 +13,7 @@ import {
     PopoverTrigger,
     PopoverContent
 } from "@/components/ui/popover"
+import { useSearch } from "@/hooks/use-search"
 // not using tailwind breakpoint because it's complex especially the sidebar is resizable on drag
 // use this to consider manually in javascript what is mobile and what is desktop
 import { UserItem } from "./user-item"
@@ -21,6 +22,7 @@ import { DocumentList } from "./document-list"
 import { TrashBox } from "./trash-box"
 
 export const Navigation = () => {
+    const search = useSearch()
     // in mobile mode when user click on a specific document it will collapse the sidebar because the sidebar takes much space
     const pathname = usePathname()
     const isMobile = useMediaQuery("(max-width: 768px)")
@@ -145,7 +147,7 @@ export const Navigation = () => {
                             label="Search"
                             icon={Search}
                             isSearch
-                            onClick={() => {}}
+                            onClick={search.onOpen}
                         />
                         <Item
                             label="Settings"
